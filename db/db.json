@@ -1,0 +1,143 @@
+{
+  "filmes": [
+    {
+      "id": "superman",
+      "titulo": "Superman: Legacy",
+      "diretor": "James Gunn",
+      "elenco": [
+        "David Corenswet",
+        "Nicholas Hoult",
+        "Rachel Brosnahan",
+        "Skyler Gisondo",
+        "Isabela Merced",
+        "Nathan Fillion",
+        "Edi Gathegi",
+        "Anthony Carrigan"
+      ],
+      "dataLancamento": "11 de julho de 2025",
+      "generos": [
+        "Ação",
+        "Aventura",
+        "Ficção científica",
+        "Drama",
+        "Super-herói"
+      ],
+      "duracao": "140 minutos",
+      "sinopse": "A trama acompanha Clark Kent, um jovem repórter em Metrópolis, enquanto busca equilibrar sua herança kryptoniana com sua criação humana em Smallville, Kansas. Guiado por valores como verdade, justiça e bondade, Superman enfrenta o desafio de manter sua esperança na humanidade em um mundo cada vez mais cético.",
+      "nota": "6",
+      "imagens": [
+        "images/superman.png",
+        "images/superman2.png",
+        "images/superman3.png"
+      ],
+      "paisOrigem": "Estados Unidos"
+    },
+    {
+      "titulo": "Branca de Neve",
+      "id": "branca",
+      "diretor": "Marc Webb",
+      "elenco": [
+        "Rachel Zegler",
+        "Gal Gadot",
+        "Andrew Burnap",
+        "Emilia Faucher",
+        "Gabriela Garcia",
+        "Jon-Scott Clark"
+      ],
+      "dataLancamento": "20 de março de 2025",
+      "generos": [
+        "Aventura",
+        "Fantasia",
+        "Musical",
+        "Drama",
+        "Família"
+      ],
+      "duracao": "1h 49min",
+      "sinopse": "Nesta releitura da história atemporal, a encantadora Branca de Neve (Rachel Zegler) é ameaçada e precisa fugir de seu reino. Após percorrer a floresta encantada, ela encontra uma cabana onde vivem os amigáveis anões, com quem ela passa a viver.",
+      "nota": "9",
+      "imagens": [
+        "images/branca.png",
+        "images/branca2.png",
+        "images/branca3.png"
+      ],
+      "paisOrigem": "Estados Unidos"
+    },
+    {
+      "id": "quarteto",
+      "titulo": "Quarteto Fantástico: Primeiros Passos",
+      "diretor": "Matt Shakman",
+      "elenco": [
+        "Pedro Pascal",
+        "Vanessa Kirby",
+        "Joseph Quinn",
+        "Ebon Moss-Bachrach",
+        "Julia Garner",
+        "Ralph Ineson",
+        "Paul Walter Hauser",
+        "Natasha Lyonne",
+        "John Malkovich"
+      ],
+      "dataLancamento": "24 de julho de 2025",
+      "generos": [
+        "Ação",
+        "Aventura",
+        "Ficção científica",
+        "Super-herói"
+      ],
+      "duracao": "150 minutos",
+      "sinopse": "Em um mundo retrofuturista inspirado nos anos 1960, o Quarteto Fantástico já é uma equipe estabelecida. Enquanto enfrentam o poderoso Galactus e sua arauta, a enigmática Surfista Prateada, Reed Richards e Sue Storm lidam com a iminente chegada de seu primeiro filho, equilibrando os desafios de salvar o mundo e manter os laços familiares.",
+      "nota": "8",
+      "imagens": [
+        "images/quarteto.png",
+        "images/quarteto2.png",
+        "images/quarteto3.png"
+      ],
+      "paisOrigem": "Estados Unidos"
+    },
+    {
+      "id": "guardiao-galaxias",
+      "titulo": "O Guardião das Galáxias",
+      "diretor": " J. D. Richards",
+      "elenco": [
+        "Leo Costa",
+        "Ana Luz",
+        "Paulo Gama"
+      ],
+      "dataLancamento": "2024-08-15",
+      "generos": [
+        "Ação",
+        "Ficção Científica"
+      ],
+      "duracao": "128 min",
+      "sinopse": "Um piloto espacial é forçado a liderar uma equipe de desajustados para proteger um artefato intergaláctico.",
+      "nota": 8.7,
+      "imagens": [
+        "guardiao1.jpg",
+        "guardiao2.jpg"
+      ],
+      "paisOrigem": "Brasil"
+    },
+    {
+      "id": "amor-paris",
+      "titulo": "Amor em Paris",
+      "diretor": "Clément Dubois",
+      "elenco": [
+        "Sophie Laurent",
+        "Hugo Marchand"
+      ],
+      "dataLancamento": "2023-02-14",
+      "generos": [
+        "Romance",
+        "Drama"
+      ],
+      "duracao": "102 min",
+      "sinopse": "Dois estranhos se conhecem em uma livraria parisiense e descobrem uma paixão inesperada.",
+      "nota": 7.4,
+      "imagens": [
+        "paris1.jpg",
+        "paris2.jpg"
+      ],
+      "paisOrigem": "França"
+    }
+  ]
+}

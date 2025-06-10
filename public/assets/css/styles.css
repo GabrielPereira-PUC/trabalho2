@@ -1,0 +1,56 @@
+body {
+    background-color: black;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+a {
+    color: darkgray;
+    text-decoration: none;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card {
+    background-color: #222;
+    border: none;
+    color: white;
+}
+
+.card-body {
+    text-align: center;
+}
+
+footer {
+    background-color: #222;
+    padding: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    .btn-danger {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar-brand {
+        margin-bottom: 10px;
+    }
+    .btn-danger {
+        font-size: 0.8rem;
+        width: 100%;
+    }
+}
