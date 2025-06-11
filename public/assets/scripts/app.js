@@ -85,3 +85,52 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarFilmes();
   }
 });
+
+
+const barraPesquisa = document.getElementById('barra-pesquisa');
+const containerFilmes = document.querySelector('#todos-filmes .row');
+let todosOsFilmes = []; // Armazena os filmes carregados do JSON
+
+// Função para renderizar os filmes
+function renderizarFilmes(lista) {
+  containerFilmes.innerHTML = '';
+  lista.forEach(filme => {
+    const imagem = Array.isArray(filme.imagens)
+      ? filme.imagens[0]
+      : filme.imagens?.split(',')[0] || 'images/sem-imagem.png';
+
+    const card = `
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 bg-dark text-white">
+          <a href="detalhes.html?filme=${filme.id}">
+            <img src="${imagem.trim()}" class="card-img-top" alt="${filme.titulo}" style="height: 300px;">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">${filme.titulo}</h5>
+            <p class="card-text">${filme.sinopse || ''}</p>
+            <a href="detalhes.html?filme=${filme.id}" class="btn btn-danger">Ver detalhes</a>
+          </div>
+        </div>
+      </div>
+    `;
+    containerFilmes.innerHTML += card;
+  });
+}
+
+
+// Carregar os filmes do JSON Server
+fetch('http://localhost:3000/filmes')
+  .then(res => res.json())
+  .then(data => {
+    todosOsFilmes = data;
+    renderizarFilmes(todosOsFilmes);
+  });
+
+// Filtrar os filmes conforme a digitação
+barraPesquisa.addEventListener('input', () => {
+  const termo = barraPesquisa.value.toLowerCase();
+  const filtrados = todosOsFilmes.filter(filme =>
+    filme.titulo.toLowerCase().includes(termo)
+  );
+  renderizarFilmes(filtrados);
+});
