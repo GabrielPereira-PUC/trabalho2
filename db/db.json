@@ -7,6 +7,14 @@
       "senha": "1234",
       "admin": true,
       "favoritos": []
+    },
+    {
+      "id": "9976",
+      "nome": "aaa",
+      "email": "aa@aa",
+      "senha": "asd",
+      "admin": false,
+      "favoritos": []
     }
   ],
   "filmes": [

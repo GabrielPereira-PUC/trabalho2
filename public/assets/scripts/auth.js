@@ -3,6 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const isCadastro = window.location.pathname.includes('cadastro.html');
     const apiURL = 'http://localhost:3000/usuarios';
 
+    const exibirMensagem = (mensagem, tipo = 'success') => {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${tipo}`;
+        alertDiv.textContent = mensagem;
+        alertDiv.style.marginTop = '10px';
+        form.appendChild(alertDiv);
+    };
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -10,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const senha = document.getElementById('senha').value.trim();
 
         if (!email || !senha) {
-            alert('Preencha todos os campos.');
+            exibirMensagem('Preencha todos os campos.', 'warning');
             return;
         }
 
@@ -19,26 +27,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const confirmar = document.getElementById('confirmar').value.trim();
 
             if (!nome || !confirmar) {
-                alert('Preencha todos os campos.');
+                exibirMensagem('Preencha todos os campos.', 'warning');
                 return;
             }
 
             if (senha !== confirmar) {
-                alert('As senhas não coincidem.');
+                exibirMensagem('As senhas não coincidem.', 'danger');
                 return;
             }
 
             try {
-                // Verifica se o e-mail já existe
                 const res = await fetch(`${apiURL}?email=${email}`);
                 const usuarios = await res.json();
 
                 if (usuarios.length > 0) {
-                    alert('E-mail já cadastrado.');
+                    exibirMensagem('E-mail já cadastrado.', 'danger');
                     return;
                 }
 
-                // Cria novo usuário
                 const novoUsuario = {
                     nome,
                     email,
@@ -54,14 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (resposta.ok) {
-                    alert('Cadastro realizado com sucesso!');
-                    window.location.href = 'login.html';
+                    exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
                 } else {
-                    alert('Erro ao cadastrar usuário.');
+                    exibirMensagem('Erro ao cadastrar usuário.', 'danger');
                 }
             } catch (error) {
                 console.error('Erro no cadastro:', error);
-                alert('Erro na comunicação com o servidor.');
+                exibirMensagem('Erro na comunicação com o servidor.', 'danger');
             }
         } else {
             try {
@@ -69,20 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const usuarios = await res.json();
 
                 if (usuarios.length === 0) {
-                    alert('E-mail ou senha inválidos.');
+                    exibirMensagem('E-mail ou senha inválidos.', 'danger');
                     return;
                 }
 
                 const usuario = usuarios[0];
-
-                // Salva no sessionStorage
                 sessionStorage.setItem('usuarioLogado', JSON.stringify(usuario));
 
-                alert('Login bem-sucedido!');
-                window.location.href = 'index.html'; // Redirecione para a página principal
+                exibirMensagem('Login bem-sucedido! Redirecionando...', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
             } catch (error) {
                 console.error('Erro no login:', error);
-                alert('Erro na comunicação com o servidor.');
+                exibirMensagem('Erro na comunicação com o servidor.', 'danger');
             }
         }
     });

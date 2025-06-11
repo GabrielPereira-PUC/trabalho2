@@ -134,3 +134,26 @@ barraPesquisa.addEventListener('input', () => {
   );
   renderizarFilmes(filtrados);
 });
+
+
+//editar filme
+document.addEventListener('DOMContentLoaded', () => {
+  const btnEditar = document.querySelector('a[href="crud.html"]');
+  const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado'));
+
+  if (!usuarioLogado || !usuarioLogado.admin) {
+    btnEditar.style.display = 'none';
+  }
+});
+
+//botao login e logout
+const btnLoginLogout = document.querySelector('a[href="login.html"]');
+if (usuarioLogado) {
+  btnLoginLogout.textContent = "Logout";
+  btnLoginLogout.addEventListener('click', () => {
+    sessionStorage.removeItem('usuarioLogado');
+    location.reload(); // ou redireciona para login.html
+  });
+} else {
+  btnLoginLogout.textContent = "Login";
+}
