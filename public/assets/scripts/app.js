@@ -1,33 +1,43 @@
+let todosOsFilmes = [];
+
 async function carregarFilmes() {
   try {
     const res = await fetch('http://localhost:3000/filmes');
     const filmes = await res.json();
-    exibirFilmes(filmes);
+    todosOsFilmes = filmes;
+    renderizarFilmes(filmes);
   } catch (erro) {
     console.error("Erro ao carregar filmes:", erro);
   }
 }
 
-function exibirFilmes(filmes) {
+function renderizarFilmes(lista) {
   const container = document.querySelector("#todos-filmes .row");
   if (!container) return;
 
-  container.innerHTML = "";
+  container.innerHTML = '';
 
-  filmes.forEach(filme => {
-    const imagem = Array.isArray(filme.imagens) ? filme.imagens[0] : filme.imagens.split(',')[0];
+  const usuario = JSON.parse(sessionStorage.getItem('usuarioLogado'));
+
+  lista.forEach(filme => {
+    const imagem = Array.isArray(filme.imagens)
+      ? filme.imagens[0]
+      : filme.imagens?.split(',')[0] || 'images/sem-imagem.png';
+
+    const jaFavorito = usuario?.favoritos?.includes(filme.id);
+
     const card = `
       <div class="col-md-4 mb-4">
-        <div class="card bg-dark text-white h-100">
+        <div class="card h-100 bg-dark text-white">
           <a href="detalhes.html?filme=${filme.id}">
-            <img src="${imagem.trim()}" class="card-img-top" style="height: 300px;" alt="${filme.titulo}">
+            <img src="${imagem.trim()}" class="card-img-top" alt="${filme.titulo}" style="height: 300px;">
           </a>
           <div class="card-body d-flex flex-column">
-            <h3 class="card-title">${filme.titulo}</h3>
-            <p class="card-text">${filme.sinopse}</p>
-            <div class="mt-auto">
-              <button class="btn btn-danger">Comprar Ingresso</button>
-              <button class="btn btn-outline-warning">&#9733;</button>
+            <h5 class="card-title">${filme.titulo}</h5>
+            <p class="card-text">${filme.sinopse || ''}</p>
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+              <a href="detalhes.html?filme=${filme.id}" class="btn btn-danger">Ver detalhes</a>
+              <button class="btn btn-outline-warning btn-favorito ${jaFavorito ? 'favoritado' : ''}" data-id="${filme.id}">&#9733;</button>
             </div>
           </div>
         </div>
@@ -78,84 +88,124 @@ async function carregarDetalhesFilme() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.includes("detalhes.html")) {
-    carregarDetalhesFilme();
-  } else {
-    carregarFilmes();
+async function carregarFavoritos() {
+  const usuario = JSON.parse(sessionStorage.getItem('usuarioLogado'));
+  const container = document.querySelector("#favoritos .row");
+  if (!container) return;
+
+  if (!usuario || !usuario.favoritos || usuario.favoritos.length === 0) {
+    container.innerHTML = "<p class='text-white'>Nenhum filme favorito encontrado.</p>";
+    return;
   }
-});
 
+  try {
+    const res = await fetch('http://localhost:3000/filmes');
+    const filmes = await res.json();
+    const favoritos = filmes.filter(f => usuario.favoritos.includes(f.id));
 
-const barraPesquisa = document.getElementById('barra-pesquisa');
-const containerFilmes = document.querySelector('#todos-filmes .row');
-let todosOsFilmes = []; // Armazena os filmes carregados do JSON
+    container.innerHTML = "";
+    favoritos.forEach(filme => {
+      const imagem = Array.isArray(filme.imagens)
+        ? filme.imagens[0]
+        : filme.imagens?.split(',')[0] || 'images/sem-imagem.png';
 
-// Função para renderizar os filmes
-function renderizarFilmes(lista) {
-  containerFilmes.innerHTML = '';
-  lista.forEach(filme => {
-    const imagem = Array.isArray(filme.imagens)
-      ? filme.imagens[0]
-      : filme.imagens?.split(',')[0] || 'images/sem-imagem.png';
-
-    const card = `
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 bg-dark text-white">
-          <a href="detalhes.html?filme=${filme.id}">
-            <img src="${imagem.trim()}" class="card-img-top" alt="${filme.titulo}" style="height: 300px;">
-          </a>
-          <div class="card-body">
-            <h5 class="card-title">${filme.titulo}</h5>
-            <p class="card-text">${filme.sinopse || ''}</p>
-            <a href="detalhes.html?filme=${filme.id}" class="btn btn-danger">Ver detalhes</a>
+      const card = `
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 bg-dark text-white">
+            <a href="detalhes.html?filme=${filme.id}">
+              <img src="${imagem.trim()}" class="card-img-top" alt="${filme.titulo}" style="height: 300px;">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">${filme.titulo}</h5>
+              <p class="card-text">${filme.sinopse || ''}</p>
+              <a href="detalhes.html?filme=${filme.id}" class="btn btn-danger">Ver detalhes</a>
+            </div>
           </div>
         </div>
-      </div>
-    `;
-    containerFilmes.innerHTML += card;
+      `;
+      container.innerHTML += card;
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar filmes favoritos:", erro);
+  }
+}
+
+// Pesquisa de filmes
+const barraPesquisa = document.getElementById('barra-pesquisa');
+if (barraPesquisa) {
+  barraPesquisa.addEventListener('input', () => {
+    const termo = barraPesquisa.value.toLowerCase();
+    const filtrados = todosOsFilmes.filter(filme =>
+      filme.titulo.toLowerCase().includes(termo)
+    );
+    renderizarFilmes(filtrados);
   });
 }
 
-
-// Carregar os filmes do JSON Server
-fetch('http://localhost:3000/filmes')
-  .then(res => res.json())
-  .then(data => {
-    todosOsFilmes = data;
-    renderizarFilmes(todosOsFilmes);
-  });
-
-// Filtrar os filmes conforme a digitação
-barraPesquisa.addEventListener('input', () => {
-  const termo = barraPesquisa.value.toLowerCase();
-  const filtrados = todosOsFilmes.filter(filme =>
-    filme.titulo.toLowerCase().includes(termo)
-  );
-  renderizarFilmes(filtrados);
-});
-
-
-//editar filme
+// Controle de exibição do botão editar e login/logout
 document.addEventListener('DOMContentLoaded', () => {
   const btnEditar = document.querySelector('a[href="crud.html"]');
   const btnLoginLogout = document.querySelector('a[href="login.html"]');
   const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado'));
 
-  // Esconde botão "Editar Filmes" se não for admin
-  if (!usuarioLogado || !usuarioLogado.admin) {
+  if (btnEditar && (!usuarioLogado || !usuarioLogado.admin)) {
     btnEditar.style.display = 'none';
   }
 
-  // Alterna entre Login e Logout
-  if (usuarioLogado) {
-    btnLoginLogout.textContent = "Logout";
-    btnLoginLogout.addEventListener('click', (e) => {
-      e.preventDefault(); // Impede redirecionamento imediato
-      sessionStorage.removeItem('usuarioLogado');
-      location.reload();
-    });
+  if (btnLoginLogout) {
+    if (usuarioLogado) {
+      btnLoginLogout.textContent = "Logout";
+      btnLoginLogout.addEventListener('click', (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('usuarioLogado');
+        location.reload();
+      });
+    } else {
+      btnLoginLogout.textContent = "Login";
+    }
+  }
+
+  const path = window.location.pathname;
+
+  if (path.includes("detalhes.html")) {
+    carregarDetalhesFilme();
+  } else if (path.includes("favoritos.html")) {
+    carregarFavoritos();
   } else {
-    btnLoginLogout.textContent = "Login";
+    carregarFilmes();
+  }
+});
+
+// Favoritar/desfavoritar filme
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('btn-favorito')) {
+    const idFilme = e.target.dataset.id;
+    const usuario = JSON.parse(sessionStorage.getItem('usuarioLogado'));
+
+    if (!usuario) {
+      alert("Você precisa estar logado para favoritar filmes.");
+      return;
+    }
+
+    const jaFavoritado = usuario.favoritos.includes(idFilme);
+    const novosFavoritos = jaFavoritado
+      ? usuario.favoritos.filter(id => id !== idFilme)
+      : [...usuario.favoritos, idFilme];
+
+    try {
+      const resposta = await fetch(`http://localhost:3000/usuarios/${usuario.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ favoritos: novosFavoritos })
+      });
+
+      if (resposta.ok) {
+        usuario.favoritos = novosFavoritos;
+        sessionStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+        e.target.classList.toggle('favoritado');
+      }
+    } catch (erro) {
+      console.error('Erro ao atualizar favoritos:', erro);
+    }
   }
 });

@@ -31,6 +31,13 @@ footer {
     padding: 10px;
 }
 
+.btn-favorito.favoritado {
+  background-color: gold;
+  color: black;
+}
+
+
+
 /* Responsividade */
 @media (max-width: 768px) {
     .navbar-brand {

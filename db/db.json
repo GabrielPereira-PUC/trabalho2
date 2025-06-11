@@ -6,7 +6,13 @@
       "email": "aa@aa",
       "senha": "asd",
       "admin": true,
-      "favoritos": []
+      "favoritos": [
+        "branca",
+        "guardiao-galaxias",
+        "superman",
+        "quarteto",
+        "amor-paris"
+      ]
     },
     {
       "id": "1329",
@@ -14,7 +20,11 @@
       "email": "asd@a",
       "senha": "asd",
       "admin": false,
-      "favoritos": []
+      "favoritos": [
+        "branca",
+        "quarteto",
+        "guardiao-galaxias"
+      ]
     }
   ],
   "filmes": [
