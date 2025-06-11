@@ -139,21 +139,23 @@ barraPesquisa.addEventListener('input', () => {
 //editar filme
 document.addEventListener('DOMContentLoaded', () => {
   const btnEditar = document.querySelector('a[href="crud.html"]');
+  const btnLoginLogout = document.querySelector('a[href="login.html"]');
   const usuarioLogado = JSON.parse(sessionStorage.getItem('usuarioLogado'));
 
+  // Esconde botão "Editar Filmes" se não for admin
   if (!usuarioLogado || !usuarioLogado.admin) {
     btnEditar.style.display = 'none';
   }
-});
 
-//botao login e logout
-const btnLoginLogout = document.querySelector('a[href="login.html"]');
-if (usuarioLogado) {
-  btnLoginLogout.textContent = "Logout";
-  btnLoginLogout.addEventListener('click', () => {
-    sessionStorage.removeItem('usuarioLogado');
-    location.reload(); // ou redireciona para login.html
-  });
-} else {
-  btnLoginLogout.textContent = "Login";
-}
+  // Alterna entre Login e Logout
+  if (usuarioLogado) {
+    btnLoginLogout.textContent = "Logout";
+    btnLoginLogout.addEventListener('click', (e) => {
+      e.preventDefault(); // Impede redirecionamento imediato
+      sessionStorage.removeItem('usuarioLogado');
+      location.reload();
+    });
+  } else {
+    btnLoginLogout.textContent = "Login";
+  }
+});

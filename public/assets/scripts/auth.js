@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded acionado');
+
     const form = document.querySelector('form');
+    console.log('Form encontrado?', form);
+
     const isCadastro = window.location.pathname.includes('cadastro.html');
     const apiURL = 'http://localhost:3000/usuarios';
 
     const exibirMensagem = (mensagem, tipo = 'success') => {
+        const alertExistente = form.querySelector('.alert');
+        if (alertExistente) alertExistente.remove();
+
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${tipo}`;
         alertDiv.textContent = mensagem;
@@ -12,7 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        e.preventDefault();  // impede o reload
+
+        console.log('Submit capturado');
 
         const email = document.getElementById('email').value.trim();
         const senha = document.getElementById('senha').value.trim();
@@ -37,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const res = await fetch(`${apiURL}?email=${email}`);
+                const res = await fetch(`${apiURL}?email=${encodeURIComponent(email)}`);
                 const usuarios = await res.json();
 
                 if (usuarios.length > 0) {
@@ -45,13 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                const novoUsuario = {
-                    nome,
-                    email,
-                    senha,
-                    admin: false,
-                    favoritos: []
-                };
+                const novoUsuario = { nome, email, senha, admin: false, favoritos: [] };
 
                 const resposta = await fetch(apiURL, {
                     method: 'POST',
@@ -60,10 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (resposta.ok) {
-                    exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
+                    window.location.href = 'login.html';
                 } else {
                     exibirMensagem('Erro ao cadastrar usuário.', 'danger');
                 }
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             try {
-                const res = await fetch(`${apiURL}?email=${email}&senha=${senha}`);
+                const res = await fetch(`${apiURL}?email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}`);
                 const usuarios = await res.json();
 
                 if (usuarios.length === 0) {
@@ -83,11 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const usuario = usuarios[0];
                 sessionStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-
-                exibirMensagem('Login bem-sucedido! Redirecionando...', 'success');
-                setTimeout(() => {
                     window.location.href = 'index.html';
-                }, 2000);
             } catch (error) {
                 console.error('Erro no login:', error);
                 exibirMensagem('Erro na comunicação com o servidor.', 'danger');
