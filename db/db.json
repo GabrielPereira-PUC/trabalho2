@@ -1,4 +1,14 @@
 {
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com",
+      "senha": "1234",
+      "admin": true,
+      "favoritos": []
+    }
+  ],
   "filmes": [
     {
       "id": "superman",
