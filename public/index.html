@@ -13,12 +13,24 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
       <a class="navbar-brand text-danger fw-bold" href="#">Cinemax</a>
-      <div class="collapse navbar-collapse">
-        <input type="text" id="barra-pesquisa" class="form-control w-25 mx-auto" placeholder="Pesquisar filmes...">
-        <div class="ms-auto">
-          <a href="favoritos.html" class="btn btn-danger mx-1">Favoritos</a>
-          <a href="login.html" class="btn btn-danger mx-1">Login | Logout</a>
-          <a href="crud.html" class="btn btn-danger mx-1">Editar Filmes</a>
+
+      <!-- Botão para mostrar/ocultar menu em telas pequenas -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarConteudo"
+        aria-controls="navbarConteudo" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu expansível -->
+      <div class="collapse navbar-collapse" id="navbarConteudo">
+        <div class="w-100 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+          <!-- Barra de pesquisa -->
+          <input type="text" id="barra-pesquisa" class="form-control my-2 my-lg-0 mx-lg-auto" placeholder="Pesquisar filmes..." style="width: 100%; max-width: 500px;">
+          <!-- Botões -->
+          <div class="d-flex flex-column flex-lg-row align-items-center mt-2 mt-lg-0">
+            <a href="favoritos.html" class="btn btn-danger mx-1 my-1">Favoritos</a>
+            <a href="login.html" class="btn btn-danger mx-1 my-1">Login | Logout</a>
+            <a href="crud.html" class="btn btn-danger mx-1 my-1">Editar Filmes</a>
+          </div>
         </div>
       </div>
     </nav>
